@@ -1,10 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final VoidCallback show;
+  const LoginScreen(this.show, {super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -51,9 +50,18 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text('dont have an account? ', style: TextStyle(fontSize: 13.sp, color: Colors.grey)),
-                Text('Sign Up', style: TextStyle(fontSize: 15.sp, color: Colors.blue, fontWeight: FontWeight.bold))
-              ],
+                GestureDetector(
+            onTap: widget.show,
+            child: Text(
+              "Sign up ",
+              style: TextStyle(
+                  fontSize: 15.sp,
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold),
             ),
+          ),
+        ],
+      ),
           );
   }
 
