@@ -2,6 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram_clone_flutter/data/firebase_servise/firebase_auth.dart';
+import 'package:instagram_clone_flutter/util/dialog.dart';
+import 'package:instagram_clone_flutter/util/exeption.dart';
+import 'package:instagram_clone_flutter/util/imagepicker.dart';
 
 class SignupScreen extends StatefulWidget {
   final VoidCallback show;
@@ -48,6 +52,12 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
             SizedBox(width: 96.w, height: 70.h),
             InkWell(
+              onTap: () async {
+                File _imagefilee = await ImagePickerr().uploadImage('gallery');
+                setState(() {
+                  _imageFile = _imagefilee;
+                });
+              },
               child: CircleAvatar(
                 radius: 36.r,
                 backgroundColor: Colors.grey,
@@ -116,23 +126,39 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget Signup() {
+ Widget Signup() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
-      child: Container(
-        alignment: Alignment.center,
-        width: double.infinity,
-        height: 44.h,
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(10.r),
-        ),
-        child: Text(
-          'Sign up',
-          style: TextStyle(
-            fontSize: 23.sp,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+      child: InkWell(
+        onTap: () async {
+          try {
+            await Authentication().Signup(
+              email: email.text,
+              password: password.text,
+              passwordConfirme: passwordConfirme.text,
+              username: username.text,
+              bio: bio.text,
+              profile: _imageFile ?? File(''),
+            );
+          } on exceptions catch (e) {
+            dialogBuilder(context, e.message);
+          }
+        },
+        child: Container(
+          alignment: Alignment.center,
+          width: double.infinity,
+          height: 44.h,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(10.r),
+          ),
+          child: Text(
+            'Sign up',
+            style: TextStyle(
+              fontSize: 23.sp,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
