@@ -35,10 +35,25 @@ class Authentication {
           bio.isNotEmpty) {
         if (password == passwordConfirme) {
           // create user with email and password
-          await _auth.createUserWithEmailAndPassword(
-            email: email.trim(),
-            password: password.trim(),
-          );
+          try {
+            await _auth.createUserWithEmailAndPassword(
+              email: email.trim(),
+              password: password.trim(),
+            );
+            print("User created successfully");
+          } on FirebaseAuthException catch (e) {
+            if (e.code == 'weak-password') {
+              print('Password is too weak.');
+            } else if (e.code == 'email-already-in-use') {
+              print('The account already exists for that email.');
+            } else if (e.code == 'invalid-email') {
+              print('The email address is badly formatted.');
+            } else {
+              print('Error undefine: ${e.message}');
+            }
+          } catch (e) {
+            print('Critic error undefine: $e');
+          }
           // upload profile image on storage
 
           if (profile != File('')) {

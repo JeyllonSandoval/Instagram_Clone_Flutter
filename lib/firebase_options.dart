@@ -31,13 +31,13 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAQ4s0PC8rMOUVt6iwtNwf580shN54yiIk',
-    appId: '1:183646428728:web:c7dbce77b1ebc68c5710cd',
-    messagingSenderId: '183646428728',
-    projectId: 'instagramclone-74a5e',
-    authDomain: 'instagramclone-74a5e.firebaseapp.com',
-    storageBucket: 'instagramclone-74a5e.firebasestorage.app',
-    measurementId: 'G-WF3GT1GHJZ',
+  apiKey: "AIzaSyAQ4s0PC8rMOUVt6iwtNwf580shN54yiIk",
+  authDomain: "instagramclone-74a5e.firebaseapp.com",
+  projectId: "instagramclone-74a5e",
+  storageBucket: "instagramclone-74a5e.firebasestorage.app",
+  messagingSenderId: "183646428728",
+  appId: "1:183646428728:web:c7dbce77b1ebc68c5710cd",
+  measurementId: "G-WF3GT1GHJZ"
   );
 
   static const FirebaseOptions android = FirebaseOptions(
