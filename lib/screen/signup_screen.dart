@@ -53,10 +53,25 @@ class _SignupScreenState extends State<SignupScreen> {
             SizedBox(width: 96.w, height: 70.h),
             InkWell(
               onTap: () async {
-                File _imagefilee = await ImagePickerr().uploadImage('gallery');
-                setState(() {
-                  _imageFile = _imagefilee;
-                });
+                try {
+                  // Intenta cargar la imagen
+                  File _imagefilee = await ImagePickerr().uploadImage('gallery');
+
+                  // Actualiza el estado si la imagen fue seleccionada correctamente
+                  setState(() {
+                    _imageFile = _imagefilee;
+                  });
+                } catch (e) {
+                  // Muestra un mensaje de error si algo sale mal
+                  print("Error al seleccionar la imagen: $e");
+
+                  // Opcional: Mostrar un Snackbar o diálogo para informar al usuario
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("No se pudo cargar la imagen. Inténtalo nuevamente."),
+                    ),
+                  );
+                }
               },
               child: CircleAvatar(
                 radius: 36.r,
