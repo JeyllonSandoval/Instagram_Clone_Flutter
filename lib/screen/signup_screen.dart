@@ -2,6 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram_clone_flutter/data/firebase_servise/firebase_auth.dart';
+import 'package:instagram_clone_flutter/util/dialog.dart';
+import 'package:instagram_clone_flutter/util/exeption.dart';
+import 'package:instagram_clone_flutter/util/imagepicker.dart';
 
 class SignupScreen extends StatefulWidget {
   final VoidCallback show;
@@ -48,6 +52,27 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
             SizedBox(width: 96.w, height: 70.h),
             InkWell(
+              onTap: () async {
+                try {
+                  // Intenta cargar la imagen
+                  File _imagefilee = await ImagePickerr().uploadImage('gallery');
+
+                  // Actualiza el estado si la imagen fue seleccionada correctamente
+                  setState(() {
+                    _imageFile = _imagefilee;
+                  });
+                } catch (e) {
+                  // Muestra un mensaje de error si algo sale mal
+                  print("Error al seleccionar la imagen: $e");
+
+                  // Opcional: Mostrar un Snackbar o diálogo para informar al usuario
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("No se pudo cargar la imagen. Inténtalo nuevamente."),
+                    ),
+                  );
+                }
+              },
               child: CircleAvatar(
                 radius: 36.r,
                 backgroundColor: Colors.grey,
@@ -116,23 +141,39 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget Signup() {
+ Widget Signup() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
-      child: Container(
-        alignment: Alignment.center,
-        width: double.infinity,
-        height: 44.h,
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(10.r),
-        ),
-        child: Text(
-          'Sign up',
-          style: TextStyle(
-            fontSize: 23.sp,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+      child: InkWell(
+        onTap: () async {
+          try {
+            await Authentication().Signup(
+              email: email.text,
+              password: password.text,
+              passwordConfirme: passwordConfirme.text,
+              username: username.text,
+              bio: bio.text,
+              profile: _imageFile ?? File(''),
+            );
+          } on exceptions catch (e) {
+            dialogBuilder(context, e.message);
+          }
+        },
+        child: Container(
+          alignment: Alignment.center,
+          width: double.infinity,
+          height: 44.h,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(10.r),
+          ),
+          child: Text(
+            'Sign up',
+            style: TextStyle(
+              fontSize: 23.sp,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

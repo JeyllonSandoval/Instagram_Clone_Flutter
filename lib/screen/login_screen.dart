@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram_clone_flutter/data/firebase_servise/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   final VoidCallback show;
@@ -34,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 10.h),
             Forgot(),
             SizedBox(height: 10.h),
-            Login(),
+            login(),
             SizedBox(height: 10.h),
             Have()
           ],
@@ -65,14 +66,72 @@ class _LoginScreenState extends State<LoginScreen> {
           );
   }
 
-  Widget Login() {
+Widget login() {
     return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w),
-            child: Container(alignment: Alignment.center, width: double.infinity, height: 44.h, decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10.r)),
-            child: Text('Log In',style: TextStyle(fontSize: 13.sp, color: Colors.white, fontWeight: FontWeight.bold))
+      padding: EdgeInsets.symmetric(horizontal: 10.w),
+      child: InkWell(
+        onTap: () async {
+          // Validación: Verifica si los campos no están vacíos
+          if (email.text.isEmpty || password.text.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Please enter both email and password'), backgroundColor: Colors.redAccent),
+            );
+            return; // Sale de la función si los campos están vacíos
+          }
+
+          // Validación adicional (opcional): Verifica el formato del correo electrónico
+          String emailPattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+          RegExp regExp = RegExp(emailPattern);
+          if (!regExp.hasMatch(email.text)) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Please enter a valid email address'), backgroundColor: Colors.redAccent),
+            );
+            return; // Sale de la función si el correo no tiene el formato adecuado
+          }
+
+          // Intentamos realizar el inicio de sesión
+          try {
+            await Authentication().Login(
+              email: email.text, 
+              password: password.text,
+            );
+            
+            // Si la autenticación es exitosa
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Login successful'), backgroundColor: const Color.fromARGB(255, 0, 109, 56)),
+            );
+            // Redirigir a otra pantalla, por ejemplo:
+            // Navigator.pushReplacementNamed(context, '/home');
+          } catch (e) {
+            // Si ocurre un error, muestra un mensaje
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Email or Password is incorrect'), backgroundColor: Colors.redAccent),
+            );
+          }
+        },
+
+
+        child: Container(
+          alignment: Alignment.center,
+          width: double.infinity,
+          height: 44.h,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(10.r),
+          ),
+          child: Text(
+            'Login',
+            style: TextStyle(
+              fontSize: 23.sp,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
             ),
-          );
+          ),
+        ),
+      ),
+    );
   }
+
 
   Widget Forgot() {
     return Padding(
