@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram_clone_flutter/data/firebase_servise/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   final VoidCallback show;
@@ -34,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 10.h),
             Forgot(),
             SizedBox(height: 10.h),
-            Login(),
+            login(),
             SizedBox(height: 10.h),
             Have()
           ],
@@ -65,14 +66,41 @@ class _LoginScreenState extends State<LoginScreen> {
           );
   }
 
-  Widget Login() {
+Widget login() {
     return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w),
-            child: Container(alignment: Alignment.center, width: double.infinity, height: 44.h, decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10.r)),
-            child: Text('Log In',style: TextStyle(fontSize: 13.sp, color: Colors.white, fontWeight: FontWeight.bold))
+      padding: EdgeInsets.symmetric(horizontal: 10.w),
+      child: InkWell(
+        onTap: () async {
+          try {
+            await Authentication()
+              .Login(email: email.text, password: password.text);
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Email or Password is incorrect'),
+            ));
+          }
+        },
+        child: Container(
+          alignment: Alignment.center,
+          width: double.infinity,
+          height: 44.h,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(10.r),
+          ),
+          child: Text(
+            'Login',
+            style: TextStyle(
+              fontSize: 23.sp,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
             ),
-          );
+          ),
+        ),
+      ),
+    );
   }
+
 
   Widget Forgot() {
     return Padding(

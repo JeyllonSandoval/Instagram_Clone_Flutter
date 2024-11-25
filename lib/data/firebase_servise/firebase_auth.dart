@@ -35,25 +35,10 @@ class Authentication {
           bio.isNotEmpty) {
         if (password == passwordConfirme) {
           // create user with email and password
-          try {
-            await _auth.createUserWithEmailAndPassword(
-              email: email.trim(),
-              password: password.trim(),
-            );
-            print("User created successfully");
-          } on FirebaseAuthException catch (e) {
-            if (e.code == 'weak-password') {
-              print('Password is too weak.');
-            } else if (e.code == 'email-already-in-use') {
-              print('The account already exists for that email.');
-            } else if (e.code == 'invalid-email') {
-              print('The email address is badly formatted.');
-            } else {
-              print('Error undefine: ${e.message}');
-            }
-          } catch (e) {
-            print('Critic error undefine: $e');
-          }
+          await _auth.createUserWithEmailAndPassword(
+            email: email.trim(),
+            password: password.trim(),
+          );
           // upload profile image on storage
 
           if (profile != File('')) {
@@ -70,7 +55,7 @@ class Authentication {
             username: username,
             bio: bio,
             profile: URL == ''
-                ? 'https://firebasestorage.googleapis.com/v0/b/instagramclone-74a5e.firebasestorage.app/o/person.png?alt=media&token=ef8909a8-e0d2-4818-a97b-729ea14d165c'
+                ? 'https://firebasestorage.googleapis.com/v0/b/instagram-8a227.appspot.com/o/person.png?alt=media&token=c6fcbe9d-f502-4aa1-8b4b-ec37339e78ab'
                 : URL,
           );
         } else {
