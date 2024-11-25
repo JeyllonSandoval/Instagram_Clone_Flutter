@@ -71,15 +71,46 @@ Widget login() {
       padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: InkWell(
         onTap: () async {
+          // Validación: Verifica si los campos no están vacíos
+          if (email.text.isEmpty || password.text.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Please enter both email and password'), backgroundColor: Colors.redAccent),
+            );
+            return; // Sale de la función si los campos están vacíos
+          }
+
+          // Validación adicional (opcional): Verifica el formato del correo electrónico
+          String emailPattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+          RegExp regExp = RegExp(emailPattern);
+          if (!regExp.hasMatch(email.text)) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Please enter a valid email address'), backgroundColor: Colors.redAccent),
+            );
+            return; // Sale de la función si el correo no tiene el formato adecuado
+          }
+
+          // Intentamos realizar el inicio de sesión
           try {
-            await Authentication()
-              .Login(email: email.text, password: password.text);
+            await Authentication().Login(
+              email: email.text, 
+              password: password.text,
+            );
+            
+            // Si la autenticación es exitosa
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Login successful'), backgroundColor: const Color.fromARGB(255, 0, 109, 56)),
+            );
+            // Redirigir a otra pantalla, por ejemplo:
+            // Navigator.pushReplacementNamed(context, '/home');
           } catch (e) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('Email or Password is incorrect'),
-            ));
+            // Si ocurre un error, muestra un mensaje
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Email or Password is incorrect'), backgroundColor: Colors.redAccent),
+            );
           }
         },
+
+
         child: Container(
           alignment: Alignment.center,
           width: double.infinity,
