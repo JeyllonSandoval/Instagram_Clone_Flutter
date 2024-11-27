@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_instagram_clone/screen/reelsScreen.dart';
-import 'package:flutter_instagram_clone/screen/reels_edite_Screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:photo_manager/photo_manager.dart';
 
@@ -140,13 +138,13 @@ class _AddReelsScreenState extends State<AddReelsScreen> {
           itemBuilder: (context, index) {
             return GestureDetector(
                 onTap: () {
-                  setState(() {
-                    indexx = index;
-                    _file = path[index];
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ReelsEditeScreen(_file!),
-                    ));
-                  });
+                  // setState(() {
+                  //   indexx = index;
+                  //   _file = path[index];
+                  //   Navigator.of(context).push(MaterialPageRoute(
+                  //     builder: (context) => ReelsEditeScreen(_file!),
+                  //   ));
+                  // });
                 },
                 child: _mediaList[index]);
           },

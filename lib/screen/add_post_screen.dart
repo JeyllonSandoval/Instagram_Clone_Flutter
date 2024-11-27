@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_instagram_clone/screen/addpost_text.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram_clone_flutter/screen/addpost_text.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 class AddPostScreen extends StatefulWidget {
