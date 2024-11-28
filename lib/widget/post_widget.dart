@@ -151,7 +151,7 @@ class _PostWidgetState extends State<PostWidget> {
                     //   );
                     // },
                     child: Image.asset(
-                      'images/comment.webp',
+                      'images/comment.png',
                       height: 28.h,
                     ),
                   ),
