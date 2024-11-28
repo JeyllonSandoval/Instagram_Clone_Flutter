@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clone_flutter/screen/addpost_text.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -19,7 +18,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   File? _file;
   int currentPage = 0;
   int? lastPage;
-  @override
+
   _fetchNewMedia() async {
     lastPage = currentPage;
     final PermissionState ps = await PhotoManager.requestPermissionExtend();
@@ -44,8 +43,11 @@ class _AddPostScreenState extends State<AddPostScreen> {
           FutureBuilder(
             future: asset.thumbnailDataWithSize(ThumbnailSize(200, 200)),
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done)
-                return Container(
+              if (snapshot.connectionState == ConnectionState.done) {
+                return snapshot.hasError
+                    ? const Icon(Icons.error)
+                    : Container(
+
                   child: Stack(
                     children: [
                       Positioned.fill(
@@ -57,6 +59,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     ],
                   ),
                 );
+              }
 
               return Container();
             },
@@ -67,6 +70,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
         _mediaList.addAll(temp);
         currentPage++;
       });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Error: Dont have permiss for access storage'), backgroundColor: Colors.redAccent),
+      );
     }
   }
 

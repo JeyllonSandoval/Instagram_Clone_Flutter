@@ -4,7 +4,6 @@ import 'package:instagram_clone_flutter/auth/auth_screen.dart';
 import 'package:instagram_clone_flutter/widget/navigation.dart';
 
 
-
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
 

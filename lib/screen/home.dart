@@ -34,26 +34,31 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Colors.black,
             size: 25,
           ),
-          Padding(
-            padding: EdgeInsets.only(right: 10.w, left: 10.w), // Ajusta el espacio derecho.
-            child: Image.asset(
-              'images/messages.png',
-              width: 20.w,
-            ),
-          ),
+          Image.asset('images/send.jpg'),
         ],
         backgroundColor: const Color(0xffFAFAFA),
       ),
-
       body: CustomScrollView(
         slivers: [
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return PostWidget();
-              },
-              childCount: 6,
-            ),
+          StreamBuilder(
+            stream: _firebaseFirestore
+                .collection('posts')
+                .orderBy('time', descending: true)
+                .snapshots(),
+            builder: (context, snapshot) {
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    if (!snapshot.hasData) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    return PostWidget(snapshot.data!.docs[index].data());
+                  },
+                  childCount:
+                      snapshot.data == null ? 0 : snapshot.data!.docs.length,
+                ),
+              );
+            },
           )
         ],
       ),

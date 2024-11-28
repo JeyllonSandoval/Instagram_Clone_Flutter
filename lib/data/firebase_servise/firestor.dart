@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instagram_clone_flutter/data/model/usermodel.dart';
 import 'package:instagram_clone_flutter/util/exeption.dart';
+import 'package:uuid/uuid.dart';
 
 class Firebase_Firestor {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
@@ -51,17 +52,21 @@ class Firebase_Firestor {
     required String caption,
     required String location,
   }) async {
-    await _firebaseFirestore.collection('posts').add({
+    var uid = Uuid().v4();
+    DateTime data = new DateTime.now();
+    Usermodel user = await getUser();
+    await _firebaseFirestore.collection('posts').doc(uid).set({
       'postImage': postImage,
+      'username': user.username,
+      'profileImage': user.profile,
       'caption': caption,
       'location': location,
-      'username': _auth.currentUser!.displayName,
-      'profile': _auth.currentUser!.photoURL,
       'uid': _auth.currentUser!.uid,
-      'likes': [],
-      'comments': [],
-      'time': DateTime.now(),
+      'postId': uid,
+      'like': [],
+      'time': data
     });
     return true;
   }
+
 }

@@ -10,9 +10,9 @@ class ReelScreen extends StatefulWidget {
 class _ReelScreenState extends State<ReelScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
-        child: const Text('Reel Screen'),
+        child: Text('Reel Screen'),
       ),
     );
   }

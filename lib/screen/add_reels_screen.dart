@@ -112,13 +112,14 @@ class _AddReelsScreenState extends State<AddReelsScreen> {
   }
 
   int indexx = 0;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: false,
-        title: Text(
+        title: const Text(
           'New Reels',
           style: TextStyle(color: Colors.black),
         ),

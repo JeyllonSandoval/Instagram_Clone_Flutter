@@ -38,6 +38,7 @@ class _AddScreenState extends State<AddScreen> {
     pageController.jumpToPage(page);
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
