@@ -69,4 +69,38 @@ class Firebase_Firestor {
     return true;
   }
 
+  Future<void> flollow({
+    required String uid,
+  }) async {
+    DocumentSnapshot snap = await _firebaseFirestore
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .get();
+    List following = (snap.data()! as dynamic)['following'];
+    try {
+      if (following.contains(uid)) {
+        _firebaseFirestore
+            .collection('users')
+            .doc(_auth.currentUser!.uid)
+            .update({
+          'following': FieldValue.arrayRemove([uid])
+        });
+        await _firebaseFirestore.collection('users').doc(uid).update({
+          'followers': FieldValue.arrayRemove([_auth.currentUser!.uid])
+        });
+      } else {
+        _firebaseFirestore
+            .collection('users')
+            .doc(_auth.currentUser!.uid)
+            .update({
+          'following': FieldValue.arrayUnion([uid])
+        });
+        _firebaseFirestore.collection('users').doc(uid).update({
+          'followers': FieldValue.arrayUnion([_auth.currentUser!.uid])
+        });
+      }
+    } on Exception catch (e) {
+      print(e.toString());
+    }
+  }
 }
