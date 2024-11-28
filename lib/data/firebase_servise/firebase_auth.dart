@@ -5,6 +5,7 @@ import 'package:instagram_clone_flutter/data/firebase_servise/firestor.dart';
 import 'package:instagram_clone_flutter/data/firebase_servise/storage.dart';
 import 'package:instagram_clone_flutter/util/exeption.dart';
 
+
 class Authentication {
   FirebaseAuth _auth = FirebaseAuth.instance;
   Future<void> Login({

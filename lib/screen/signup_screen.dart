@@ -39,6 +39,7 @@ class _SignupScreenState extends State<SignupScreen> {
     bio.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -55,11 +56,11 @@ class _SignupScreenState extends State<SignupScreen> {
               onTap: () async {
                 try {
                   // Intenta cargar la imagen
-                  File _imagefilee = await ImagePickerr().uploadImage('gallery');
+                  File imagefilee = await ImagePickerr().uploadImage('gallery');
 
                   // Actualiza el estado si la imagen fue seleccionada correctamente
                   setState(() {
-                    _imageFile = _imagefilee;
+                    _imageFile = imagefilee;
                   });
                 } catch (e) {
                   // Muestra un mensaje de error si algo sale mal
@@ -67,7 +68,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
                   // Opcional: Mostrar un Snackbar o diálogo para informar al usuario
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text("No se pudo cargar la imagen. Inténtalo nuevamente."),
                     ),
                   );
@@ -79,7 +80,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 child: _imageFile == null
                     ? CircleAvatar(
                         radius: 34.r,
-                        backgroundImage: AssetImage('images/person.png'),
+                        backgroundImage: const AssetImage('images/person.png'),
                         backgroundColor: Colors.grey.shade200,
                       )
                     : CircleAvatar(
