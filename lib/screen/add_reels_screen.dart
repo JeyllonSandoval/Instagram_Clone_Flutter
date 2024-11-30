@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram_clone_flutter/screen/reels_edite_Screen.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 class AddReelsScreen extends StatefulWidget {
@@ -112,14 +113,13 @@ class _AddReelsScreenState extends State<AddReelsScreen> {
   }
 
   int indexx = 0;
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: false,
-        title: const Text(
+        title: Text(
           'New Reels',
           style: TextStyle(color: Colors.black),
         ),
@@ -139,13 +139,13 @@ class _AddReelsScreenState extends State<AddReelsScreen> {
           itemBuilder: (context, index) {
             return GestureDetector(
                 onTap: () {
-                  // setState(() {
-                  //   indexx = index;
-                  //   _file = path[index];
-                  //   Navigator.of(context).push(MaterialPageRoute(
-                  //     builder: (context) => ReelsEditeScreen(_file!),
-                  //   ));
-                  // });
+                  setState(() {
+                    indexx = index;
+                    _file = path[index];
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ReelsEditeScreen(_file!),
+                    ));
+                  });
                 },
                 child: _mediaList[index]);
           },
