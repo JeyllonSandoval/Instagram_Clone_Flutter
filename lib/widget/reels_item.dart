@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clone_flutter/data/firebase_servise/firestor.dart';
 import 'package:instagram_clone_flutter/util/image_cached.dart';
 import 'package:instagram_clone_flutter/widget/comment.dart';
+import 'package:instagram_clone_flutter/widget/like_animation.dart';
 import 'package:video_player/video_player.dart';
 
 class ReelsItem extends StatefulWidget {
@@ -49,16 +50,16 @@ class _ReelsItemState extends State<ReelsItem> {
       alignment: Alignment.bottomRight,
       children: [
         GestureDetector(
-          // onDoubleTap: () {
-          //   Firebase_Firestor().like(
-          //       like: widget.snapshot['like'],
-          //       type: 'reels',
-          //       uid: user,
-          //       postId: widget.snapshot['postId']);
-          //   setState(() {
-          //     isAnimating = true;
-          //   });
-          // },
+          onDoubleTap: () {
+            Firebase_Firestor().like(
+                like: widget.snapshot['like'],
+                type: 'reels',
+                uid: user,
+                postId: widget.snapshot['postId']);
+            setState(() {
+              isAnimating = true;
+            });
+          },
           onTap: () {
             setState(() {
               play = !play;
@@ -91,21 +92,21 @@ class _ReelsItemState extends State<ReelsItem> {
           child: AnimatedOpacity(
             duration: Duration(milliseconds: 200),
             opacity: isAnimating ? 1 : 0,
-            // child: LikeAnimation(
-            //   child: Icon(
-            //     Icons.favorite,
-            //     size: 100.w,
-            //     color: Colors.red,
-            //   ),
-            //   isAnimating: isAnimating,
-            //   duration: Duration(milliseconds: 400),
-            //   iconlike: false,
-            //   End: () {
-            //     setState(() {
-            //       isAnimating = false;
-            //     });
-            //   },
-            // ),
+            child: LikeAnimation(
+              child: Icon(
+                Icons.favorite,
+                size: 100.w,
+                color: Colors.red,
+              ),
+              isAnimating: isAnimating,
+              duration: Duration(milliseconds: 400),
+              iconlike: false,
+              End: () {
+                setState(() {
+                  isAnimating = false;
+                });
+              },
+            ),
           ),
         ),
         Positioned(
@@ -113,27 +114,27 @@ class _ReelsItemState extends State<ReelsItem> {
           right: 15.w,
           child: Column(
             children: [
-              // LikeAnimation(
-              //   child: IconButton(
-              //     onPressed: () {
-              //       Firebase_Firestor().like(
-              //           like: widget.snapshot['like'],
-              //           type: 'reels',
-              //           uid: user,
-              //           postId: widget.snapshot['postId']);
-              //     },
-              //     icon: Icon(
-              //       widget.snapshot['like'].contains(user)
-              //           ? Icons.favorite
-              //           : Icons.favorite_border,
-              //       color: widget.snapshot['like'].contains(user)
-              //           ? Colors.red
-              //           : Colors.white,
-              //       size: 24.w,
-              //     ),
-              //   ),
-              //   isAnimating: widget.snapshot['like'].contains(user),
-              // ),
+              LikeAnimation(
+                child: IconButton(
+                  onPressed: () {
+                    Firebase_Firestor().like(
+                        like: widget.snapshot['like'],
+                        type: 'reels',
+                        uid: user,
+                        postId: widget.snapshot['postId']);
+                  },
+                  icon: Icon(
+                    widget.snapshot['like'].contains(user)
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    color: widget.snapshot['like'].contains(user)
+                        ? Colors.red
+                        : Colors.white,
+                    size: 24.w,
+                  ),
+                ),
+                isAnimating: widget.snapshot['like'].contains(user),
+              ),
               SizedBox(height: 3.h),
               Text(
                 widget.snapshot['like'].length.toString(),
