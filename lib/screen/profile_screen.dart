@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clone_flutter/data/firebase_servise/firestor.dart';
 import 'package:instagram_clone_flutter/data/model/usermodel.dart';
+import 'package:instagram_clone_flutter/screen/SettingScreen.dart';
 import 'package:instagram_clone_flutter/screen/post_screen.dart';
 import 'package:instagram_clone_flutter/util/image_cached.dart';
 
@@ -296,17 +297,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SizedBox(
             width: double.infinity,
             height: 30.h,
-            child: const TabBar(
-              unselectedLabelColor: Colors.grey,
-              labelColor: Colors.black,
-              indicatorColor: Colors.black,
-              tabs: [
-                Icon(Icons.grid_on),
-                Icon(Icons.video_collection),
-                Icon(Icons.person),
+            child: Row(
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => SettingsScreen()));
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 30.h,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey.shade300),
+                      ),
+                      child: Text(
+                        'Settings',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
+          
           SizedBox(
             height: 5.h,
           )
