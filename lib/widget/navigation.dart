@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clone_flutter/screen/add_screen.dart';
-import 'package:instagram_clone_flutter/screen/explore_screen.dart';
+import 'package:instagram_clone_flutter/screen/explore.dart';
 import 'package:instagram_clone_flutter/screen/home.dart';
 import 'package:instagram_clone_flutter/screen/profile_screen.dart';
 import 'package:instagram_clone_flutter/screen/reelScreen.dart';
