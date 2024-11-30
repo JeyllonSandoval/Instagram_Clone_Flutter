@@ -40,11 +40,16 @@ class _AddPostTextScreenState extends State<AddPostTextScreen> {
                   });
                   String postUrl = await StorageMethod()
                       .uploadImageToStorage('post', widget._file);
-                  await Firebase_Firestor().CreatePost(
-                    postImage: postUrl,
-                    caption: caption.text,
-                    location: location.text,
-                  );
+                  try {
+                    await Firebase_Firestor().CreatePost(
+                        caption: caption.text,
+                        location: location.text,
+                        postImage: postUrl);
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Error trying to upload post'), backgroundColor: Colors.redAccent),
+                    );
+                  }
                   setState(() {
                     islooding = false;
                   });
