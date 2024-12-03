@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram_clone_flutter/screen/messeger_screen.dart';
 import 'package:instagram_clone_flutter/widget/post_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -36,7 +37,15 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Padding(
             padding: EdgeInsets.only(left: 10.w, right: 10.w),
-            child: Image.asset('images/messages.png', width: 22, height: 22),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MessengerScreen()), // Cambia a la pantalla de Messenger
+                );
+              },
+              child: Image.asset('images/messages.png', width: 22, height: 22),
+            ),
           ),
         ],
         backgroundColor: const Color(0xffFAFAFA),
