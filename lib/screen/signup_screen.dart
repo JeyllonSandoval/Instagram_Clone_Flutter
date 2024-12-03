@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clone_flutter/data/firebase_servise/firebase_auth.dart';
-import 'package:instagram_clone_flutter/util/dialog.dart';
 import 'package:instagram_clone_flutter/util/exeption.dart';
 import 'package:instagram_clone_flutter/util/imagepicker.dart';
 
@@ -17,19 +16,24 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   final email = TextEditingController();
-  FocusNode email_F = FocusNode();
+  FocusNode emailFocusNode = FocusNode();
   final password = TextEditingController();
-  FocusNode password_F = FocusNode();
+  FocusNode passwordFocusNode = FocusNode();
   final passwordConfirme = TextEditingController();
-  FocusNode passwordConfirme_F = FocusNode();
+  FocusNode passwordConfirmationFocusNode = FocusNode();
   final username = TextEditingController();
-  FocusNode username_F = FocusNode();
+  FocusNode usernameFocusNode = FocusNode();
   final bio = TextEditingController();
-  FocusNode bio_F = FocusNode();
+  FocusNode bioFocusNode = FocusNode();
   File? _imageFile;
+  
   @override
   void dispose() {
-    // TODO: implement dispose
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
+    passwordConfirmationFocusNode.dispose();
+    usernameFocusNode.dispose();
+    bioFocusNode.dispose();
     super.dispose();
     email.dispose();
     password.dispose();
@@ -79,20 +83,20 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               SizedBox(height: 40.h),
-              Textfild(email, email_F, 'Email', Icons.email),
+              textfild(email, emailFocusNode, 'Email', Icons.email),
               SizedBox(height: 15.h),
-              Textfild(username, username_F, 'username', Icons.person),
+              textfild(username, usernameFocusNode, 'username', Icons.person),
               SizedBox(height: 15.h),
-              Textfild(bio, bio_F, 'bio', Icons.abc),
+              textfild(bio, bioFocusNode, 'bio', Icons.abc),
               SizedBox(height: 15.h),
-              Textfild(password, password_F, 'Password', Icons.lock),
+              textfild(password, passwordFocusNode, 'Password', Icons.lock),
               SizedBox(height: 15.h),
-              Textfild(passwordConfirme, passwordConfirme_F, 'PasswordConfirme',
+              textfild(passwordConfirme, passwordConfirmationFocusNode, 'PasswordConfirme',
                   Icons.lock),
               SizedBox(height: 15.h),
-              Signup(),
+              signup(),
               SizedBox(height: 15.h),
-              Have()
+              have()
             ],
           ),
         ),
@@ -100,7 +104,7 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget Have() {
+  Widget have() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: Row(
@@ -128,7 +132,7 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget Signup() {
+  Widget signup() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: InkWell(
@@ -178,7 +182,7 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Padding Textfild(TextEditingController controll, FocusNode focusNode,
+  Padding textfild(TextEditingController controll, FocusNode focusNode,
       String typename, IconData icon) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),

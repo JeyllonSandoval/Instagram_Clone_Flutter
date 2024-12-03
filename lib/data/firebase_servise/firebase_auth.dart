@@ -29,7 +29,7 @@ class Authentication {
     required String bio,
     required File profile,
   }) async {
-    String URL;
+    String url;
     try {
       if (email.isNotEmpty &&
           password.isNotEmpty &&
@@ -44,10 +44,10 @@ class Authentication {
           // upload profile image on storage
 
           if (profile != File('')) {
-            URL =
+            url =
                 await StorageMethod().uploadImageToStorage('Profile', profile);
           } else {
-            URL = '';
+            url = '';
           }
 
           // get information with firestor
@@ -56,9 +56,9 @@ class Authentication {
             email: email,
             username: username,
             bio: bio,
-            profile: URL == ''
+            profile: url == ''
                 ? 'https://firebasestorage.googleapis.com/v0/b/instagram-8a227.appspot.com/o/person.png?alt=media&token=c6fcbe9d-f502-4aa1-8b4b-ec37339e78ab'
-                : URL,
+                : url,
           );
         } else {
           throw exceptions('password and confirm password should be same');
