@@ -2,7 +2,10 @@ import 'package:date_format/date_format.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram_clone_flutter/data/firebase_servise/firestor.dart';
 import 'package:instagram_clone_flutter/util/image_cached.dart';
+import 'package:instagram_clone_flutter/widget/comment.dart';
+import 'package:instagram_clone_flutter/widget/like_animation.dart';
 
 class PostWidget extends StatefulWidget {
   final snapshot;
@@ -53,16 +56,16 @@ class _PostWidgetState extends State<PostWidget> {
           ),
         ),
         GestureDetector(
-          // onDoubleTap: () {
-          //   Firebase_Firestor().like(
-          //       like: widget.snapshot['like'],
-          //       type: 'posts',
-          //       uid: user,
-          //       postId: widget.snapshot['postId']);
-          //   setState(() {
-          //     isAnimating = true;
-          //   });
-          // },
+          onDoubleTap: () {
+            Firebase_Firestor().like(
+                like: widget.snapshot['like'],
+                type: 'posts',
+                uid: user,
+                postId: widget.snapshot['postId']);
+            setState(() {
+              isAnimating = true;
+            });
+          },
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -73,25 +76,25 @@ class _PostWidgetState extends State<PostWidget> {
                   widget.snapshot['postImage'],
                 ),
               ),
-              // AnimatedOpacity(
-              //   duration: Duration(milliseconds: 200),
-              //   opacity: isAnimating ? 1 : 0,
-              //   child: LikeAnimation(
-              //     child: Icon(
-              //       Icons.favorite,
-              //       size: 100.w,
-              //       color: Colors.red,
-              //     ),
-              //     isAnimating: isAnimating,
-              //     duration: Duration(milliseconds: 400),
-              //     iconlike: false,
-              //     End: () {
-              //       setState(() {
-              //         isAnimating = false;
-              //       });
-              //     },
-              //   ),
-              // )
+              AnimatedOpacity(
+                duration: Duration(milliseconds: 200),
+                opacity: isAnimating ? 1 : 0,
+                child: LikeAnimation(
+                  child: Icon(
+                    Icons.favorite,
+                    size: 100.w,
+                    color: Colors.red,
+                  ),
+                  isAnimating: isAnimating,
+                  duration: Duration(milliseconds: 400),
+                  iconlike: false,
+                  End: () {
+                    setState(() {
+                      isAnimating = false;
+                    });
+                  },
+                ),
+              )
             ],
           ),
         ),
@@ -105,51 +108,51 @@ class _PostWidgetState extends State<PostWidget> {
               Row(
                 children: [
                   SizedBox(width: 14.w),
-                  // LikeAnimation(
-                  //   child: IconButton(
-                  //     onPressed: () {
-                  //       Firebase_Firestor().like(
-                  //           like: widget.snapshot['like'],
-                  //           type: 'posts',
-                  //           uid: user,
-                  //           postId: widget.snapshot['postId']);
-                  //     },
-                  //     icon: Icon(
-                  //       widget.snapshot['like'].contains(user)
-                  //           ? Icons.favorite
-                  //           : Icons.favorite_border,
-                  //       color: widget.snapshot['like'].contains(user)
-                  //           ? Colors.red
-                  //           : Colors.black,
-                  //       size: 24.w,
-                  //     ),
-                  //   ),
-                  //   isAnimating: widget.snapshot['like'].contains(user),
-                  // ),
+                  LikeAnimation(
+                    child: IconButton(
+                      onPressed: () {
+                        Firebase_Firestor().like(
+                            like: widget.snapshot['like'],
+                            type: 'posts',
+                            uid: user,
+                            postId: widget.snapshot['postId']);
+                      },
+                      icon: Icon(
+                        widget.snapshot['like'].contains(user)
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: widget.snapshot['like'].contains(user)
+                            ? Colors.red
+                            : Colors.black,
+                        size: 24.w,
+                      ),
+                    ),
+                    isAnimating: widget.snapshot['like'].contains(user),
+                  ),
                   SizedBox(width: 17.w),
                   GestureDetector(
-                    // onTap: () {
-                    //   showBottomSheet(
-                    //     backgroundColor: Colors.transparent,
-                    //     context: context,
-                    //     builder: (context) {
-                    //       return Padding(
-                    //         padding: EdgeInsets.only(
-                    //           bottom: MediaQuery.of(context).viewInsets.bottom,
-                    //         ),
-                    //         child: DraggableScrollableSheet(
-                    //           maxChildSize: 0.6,
-                    //           initialChildSize: 0.6,
-                    //           minChildSize: 0.2,
-                    //           builder: (context, scrollController) {
-                    //             return Comment(
-                    //                 'posts', widget.snapshot['postId']);
-                    //           },
-                    //         ),
-                    //       );
-                    //     },
-                    //   );
-                    // },
+                    onTap: () {
+                      showBottomSheet(
+                        backgroundColor: Colors.transparent,
+                        context: context,
+                        builder: (context) {
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom,
+                            ),
+                            child: DraggableScrollableSheet(
+                              maxChildSize: 0.6,
+                              initialChildSize: 0.6,
+                              minChildSize: 0.2,
+                              builder: (context, scrollController) {
+                                return Comment(
+                                    'posts', widget.snapshot['postId']);
+                              },
+                            ),
+                          );
+                        },
+                      );
+                    },
                     child: Image.asset(
                       'images/comment.png',
                       height: 28.h,
