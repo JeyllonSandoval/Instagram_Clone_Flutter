@@ -331,37 +331,42 @@ getdata() async {
             ),
           ),
           SizedBox(height: 5.h),
-          SizedBox(
-            width: double.infinity,
-            height: 30.h,
-            child: Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => SettingsScreen()));
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 30.h,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey.shade300),
-                      ),
-                      child: const Text(
-                        'Settings',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
+          Visibility(
+            visible: yourse, // Muestra solo si el usuario es el propietario
+            child: SizedBox(
+              width: double.infinity,
+              height: 30.h,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => SettingsScreen(),
+                        ));
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 30.h,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey.shade300),
+                        ),
+                        child: const Text(
+                          'Settings',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
+
           
           SizedBox(
             height: 5.h,
