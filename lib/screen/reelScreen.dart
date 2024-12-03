@@ -13,6 +13,7 @@ class ReelScreen extends StatefulWidget {
 class _ReelScreenState extends State<ReelScreen> {
   @override
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -28,7 +29,7 @@ class _ReelScreenState extends State<ReelScreen> {
               controller: PageController(initialPage: 0, viewportFraction: 1),
               itemBuilder: (context, index) {
                 if (!snapshot.hasData) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 }
                 return ReelsItem(snapshot.data!.docs[index].data());
               },

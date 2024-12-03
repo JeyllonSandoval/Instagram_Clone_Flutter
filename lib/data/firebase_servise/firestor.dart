@@ -48,7 +48,7 @@ Future<bool> CreateUser({
     try {
       final user = await _firebaseFirestore
           .collection('users')
-          .doc(UID != null ? UID : _auth.currentUser!.uid)
+          .doc(UID ?? _auth.currentUser!.uid)
           .get();
       final snapuser = user.data()!;
       return Usermodel(
@@ -68,8 +68,8 @@ Future<bool> CreateUser({
     required String caption,
     required String location,
   }) async {
-    var uid = Uuid().v4();
-    DateTime data = new DateTime.now();
+    var uid = const Uuid().v4();
+    DateTime data = DateTime.now();
     Usermodel user = await getUser();
     await _firebaseFirestore.collection('posts').doc(uid).set({
       'postImage': postImage,
@@ -124,8 +124,8 @@ Future<bool> CreateUser({
     required String video,
     required String caption,
   }) async {
-    var uid = Uuid().v4();
-    DateTime data = new DateTime.now();
+    var uid = const Uuid().v4();
+    DateTime data = DateTime.now();
     Usermodel user = await getUser();
     await _firebaseFirestore.collection('reels').doc(uid).set({
       'reelsvideo': video,
@@ -145,7 +145,7 @@ Future<bool> CreateUser({
     required String type,
     required String uidd,
   }) async {
-    var uid = Uuid().v4();
+    var uid = const Uuid().v4();
     Usermodel user = await getUser();
     await _firebaseFirestore
         .collection(type)

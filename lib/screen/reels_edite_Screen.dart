@@ -30,13 +30,14 @@ class _ReelsEditeScreenState extends State<ReelsEditeScreen> {
       });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         centerTitle: false,
-        title: Text(
+        title: const Text(
           'New Reels',
           style: TextStyle(color: Colors.black),
         ),
@@ -56,7 +57,7 @@ class _ReelsEditeScreenState extends State<ReelsEditeScreen> {
                     SizedBox(height: 30.h),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 40.w),
-                      child: Container(
+                      child: SizedBox(
                           width: 270.w,
                           height: 420.h,
                           child: controller.value.isInitialized
@@ -79,7 +80,7 @@ class _ReelsEditeScreenState extends State<ReelsEditeScreen> {
                         ),
                       ),
                     ),
-                    Divider(),
+                    const Divider(),
                     SizedBox(height: 20.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -105,12 +106,12 @@ class _ReelsEditeScreenState extends State<ReelsEditeScreen> {
                             setState(() {
                               Loading = true;
                             });
-                            String Reels_Url = await StorageMethod()
+                            String reelsUrl = await StorageMethod()
                                 .uploadImageToStorage(
                                     'Reels', widget.videoFile);
                                     try {
                                       await Firebase_Firestor().CreatReels(
-                                video: Reels_Url,
+                                video: reelsUrl,
                                 caption: caption.text,
                               );
                             } catch (e) {

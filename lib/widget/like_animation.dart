@@ -7,13 +7,13 @@ class LikeAnimation extends StatefulWidget {
   final VoidCallback? End;
   final bool iconlike;
   const LikeAnimation({
-    Key? key,
+    super.key,
     required this.child,
     required this.isAnimating,
     this.duration = const Duration(milliseconds: 150),
     this.End,
     this.iconlike = false,
-  }) : super(key: key);
+  });
 
   @override
   State<LikeAnimation> createState() => _LikeAnimationState();

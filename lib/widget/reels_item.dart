@@ -9,7 +9,7 @@ import 'package:video_player/video_player.dart';
 
 class ReelsItem extends StatefulWidget {
   final snapshot;
-  ReelsItem(this.snapshot, {super.key});
+  const ReelsItem(this.snapshot, {super.key});
 
   @override
   State<ReelsItem> createState() => _ReelsItemState();
@@ -70,7 +70,7 @@ class _ReelsItemState extends State<ReelsItem> {
               controller.pause();
             }
           },
-          child: Container(
+          child: SizedBox(
             width: double.infinity,
             height: 812.h,
             child: VideoPlayer(controller),
@@ -90,22 +90,22 @@ class _ReelsItemState extends State<ReelsItem> {
           ),
         Center(
           child: AnimatedOpacity(
-            duration: Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 200),
             opacity: isAnimating ? 1 : 0,
             child: LikeAnimation(
-              child: Icon(
-                Icons.favorite,
-                size: 100.w,
-                color: Colors.red,
-              ),
               isAnimating: isAnimating,
-              duration: Duration(milliseconds: 400),
+              duration: const Duration(milliseconds: 400),
               iconlike: false,
               End: () {
                 setState(() {
                   isAnimating = false;
                 });
               },
+              child: Icon(
+                Icons.favorite,
+                size: 100.w,
+                color: Colors.red,
+              ),
             ),
           ),
         ),
@@ -115,6 +115,7 @@ class _ReelsItemState extends State<ReelsItem> {
           child: Column(
             children: [
               LikeAnimation(
+                isAnimating: widget.snapshot['like'].contains(user),
                 child: IconButton(
                   onPressed: () {
                     Firebase_Firestor().like(
@@ -133,7 +134,6 @@ class _ReelsItemState extends State<ReelsItem> {
                     size: 24.w,
                   ),
                 ),
-                isAnimating: widget.snapshot['like'].contains(user),
               ),
               SizedBox(height: 3.h),
               Text(

@@ -85,10 +85,10 @@ class _Navigations_ScreenState extends State<Navigations_Screen> {
         controller: pageController,
         onPageChanged: onPageChanged,
         children: [
-          HomeScreen(),
-          ExploreScreen(),
-          AddScreen(),
-          ReelScreen(),
+          const HomeScreen(),
+          const ExploreScreen(),
+          const AddScreen(),
+          const ReelScreen(),
           ProfileScreen(
             Uid: _auth.currentUser!.uid,
           ),

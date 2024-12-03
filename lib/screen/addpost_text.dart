@@ -7,7 +7,7 @@ import 'package:instagram_clone_flutter/data/firebase_servise/storage.dart';
 
 class AddPostTextScreen extends StatefulWidget {
   final File _file;
-  AddPostTextScreen(this._file, {super.key});
+  const AddPostTextScreen(this._file, {super.key});
 
   @override
   State<AddPostTextScreen> createState() => _AddPostTextScreenState();

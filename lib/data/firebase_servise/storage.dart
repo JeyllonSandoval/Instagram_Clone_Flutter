@@ -7,7 +7,7 @@ import 'package:uuid/uuid.dart';
 class StorageMethod {
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  var uid = Uuid().v4();
+  var uid = const Uuid().v4();
 
   Future<String> uploadImageToStorage(String name, File file) async {
     Reference ref =

@@ -93,9 +93,9 @@ getdata() async {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return SliverToBoxAdapter(
+                    return const SliverToBoxAdapter(
                         child:
-                            const Center(child: CircularProgressIndicator()));
+                            Center(child: CircularProgressIndicator()));
                   }
                   post_lenght = snapshot.data!.docs.length;
                   return SliverGrid(
@@ -254,8 +254,8 @@ getdata() async {
                         color: yourse ? Colors.grey.shade400 : Colors.blue),
                   ),
                   child: yourse
-                      ? Text('Edit Your Profile')
-                      : Text(
+                      ? const Text('Edit Your Profile')
+                      : const Text(
                           'Follow',
                           style: TextStyle(color: Colors.white),
                         ),
@@ -286,7 +286,7 @@ getdata() async {
                             borderRadius: BorderRadius.circular(5.r),
                             border: Border.all(color: Colors.grey.shade200),
                           ),
-                          child: Text('Unfollow')),
+                          child: const Text('Unfollow')),
                     ),
                   ),
                   SizedBox(width: 8.w),
@@ -300,7 +300,7 @@ getdata() async {
                         borderRadius: BorderRadius.circular(5.r),
                         border: Border.all(color: Colors.grey.shade200),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Message',
                         style: TextStyle(color: Colors.black),
                       ),
@@ -329,7 +329,7 @@ getdata() async {
                         color: Colors.white,
                         border: Border.all(color: Colors.grey.shade300),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Settings',
                         style: TextStyle(
                           color: Colors.black,

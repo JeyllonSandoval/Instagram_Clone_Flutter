@@ -5,11 +5,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 class SettingsScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  const SettingsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings', style: TextStyle(color: Colors.black)),
+        title: const Text('Settings', style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.grey[300],
       ),
       body: Padding(
@@ -17,14 +19,14 @@ class SettingsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Preferencias',
               style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Colors.black),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
                 try {
@@ -44,7 +46,7 @@ class SettingsScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                 ),
               ),
-              child: Text(
+              child: const Text(
                 'Logout',
                 style: TextStyle(color: Colors.white),
               ),

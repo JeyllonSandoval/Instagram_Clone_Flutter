@@ -51,7 +51,7 @@ class _CommentState extends State<Comment> {
                   child: ListView.builder(
                     itemBuilder: (context, index) {
                       if (!snapshot.hasData) {
-                        return CircularProgressIndicator();
+                        return const CircularProgressIndicator();
                       }
                       return comment_item(snapshot.data!.docs[index].data());
                     },

@@ -3,7 +3,7 @@ import 'package:instagram_clone_flutter/widget/post_widget.dart';
 
 class PostScreen extends StatelessWidget {
   final snapshot;
-  PostScreen(this.snapshot, {super.key});
+  const PostScreen(this.snapshot, {super.key});
 
   @override
   Widget build(BuildContext context) {

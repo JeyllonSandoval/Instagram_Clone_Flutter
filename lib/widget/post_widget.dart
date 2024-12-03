@@ -9,7 +9,7 @@ import 'package:instagram_clone_flutter/widget/like_animation.dart';
 
 class PostWidget extends StatefulWidget {
   final snapshot;
-  PostWidget(this.snapshot, {super.key});
+  const PostWidget(this.snapshot, {super.key});
 
   @override
   State<PostWidget> createState() => _PostWidgetState();
@@ -27,6 +27,7 @@ class _PostWidgetState extends State<PostWidget> {
     user = _auth.currentUser!.uid;
   }
 
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -69,7 +70,7 @@ class _PostWidgetState extends State<PostWidget> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Container(
+              SizedBox(
                 width: 375.w,
                 height: 375.h,
                 child: CachedImage(
@@ -77,22 +78,22 @@ class _PostWidgetState extends State<PostWidget> {
                 ),
               ),
               AnimatedOpacity(
-                duration: Duration(milliseconds: 200),
+                duration: const Duration(milliseconds: 200),
                 opacity: isAnimating ? 1 : 0,
                 child: LikeAnimation(
-                  child: Icon(
-                    Icons.favorite,
-                    size: 100.w,
-                    color: Colors.red,
-                  ),
                   isAnimating: isAnimating,
-                  duration: Duration(milliseconds: 400),
+                  duration: const Duration(milliseconds: 400),
                   iconlike: false,
                   End: () {
                     setState(() {
                       isAnimating = false;
                     });
                   },
+                  child: Icon(
+                    Icons.favorite,
+                    size: 100.w,
+                    color: Colors.red,
+                  ),
                 ),
               )
             ],
@@ -109,6 +110,7 @@ class _PostWidgetState extends State<PostWidget> {
                 children: [
                   SizedBox(width: 14.w),
                   LikeAnimation(
+                    isAnimating: widget.snapshot['like'].contains(user),
                     child: IconButton(
                       onPressed: () {
                         Firebase_Firestor().like(
@@ -127,7 +129,6 @@ class _PostWidgetState extends State<PostWidget> {
                         size: 24.w,
                       ),
                     ),
-                    isAnimating: widget.snapshot['like'].contains(user),
                   ),
                   SizedBox(width: 17.w),
                   GestureDetector(
