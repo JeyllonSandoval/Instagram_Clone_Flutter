@@ -95,17 +95,22 @@ getdata() async {
         body: SafeArea(
           child: CustomScrollView(
             slivers: [
-              SliverToBoxAdapter(
-                child: FutureBuilder(
-                  future: Firebase_Firestor().getUser(UID: widget.Uid),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    return Head(snapshot.data!);
-                  },
-                ),
+            SliverToBoxAdapter(
+              child: FutureBuilder(
+                future: Firebase_Firestor().getUser(UID: widget.Uid),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height,
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                  return Head(snapshot.data!);
+                },
               ),
+            ),
               StreamBuilder(
                 stream: _firebaseFirestore
                     .collection('posts')

@@ -132,55 +132,61 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget signup() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.w),
-      child: InkWell(
-        onTap: () async {
-          try {
-            await Authentication().Signup(
-              email: email.text,
-              password: password.text,
-              passwordConfirme: passwordConfirme.text,
-              username: username.text,
-              bio: bio.text,
-              profile: _imageFile ?? File(''),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Account created successfully'),
-                backgroundColor: Colors.green,
-              ),
-            );
-          } on exceptions catch (e) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(e.message),
-                backgroundColor: Colors.red,
-              ),
-            );
+Widget signup() {
+  return Padding(
+    padding: EdgeInsets.symmetric(horizontal: 10.w),
+    child: InkWell(
+      onTap: () async {
+        try {
+          //Comprueba si se selecciono una imagen
+          if (_imageFile == null) {
+            throw exceptions('Please select an image');
           }
-        },
-        child: Container(
-          alignment: Alignment.center,
-          width: double.infinity,
-          height: 44.h,
-          decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: BorderRadius.circular(10.r),
-          ),
-          child: Text(
-            'Sign up',
-            style: TextStyle(
-              fontSize: 23.sp,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
+          // Llama a la función de signup y pasa la imagen
+          await Authentication().Signup(
+            email: email.text,
+            password: password.text,
+            passwordConfirme: passwordConfirme.text,
+            username: username.text,
+            bio: bio.text,
+            profile: _imageFile ?? File(''),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Account created successfully'),
+              backgroundColor: Colors.green,
             ),
+          );
+        } on exceptions catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(e.message),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      },
+      child: Container(
+        alignment: Alignment.center,
+        width: double.infinity,
+        height: 44.h,
+        decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        child: Text(
+          'Sign up',
+          style: TextStyle(
+            fontSize: 23.sp,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   Padding textfild(TextEditingController controll, FocusNode focusNode,
       String typename, IconData icon) {
