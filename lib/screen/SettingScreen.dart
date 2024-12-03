@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:instagram_clone_flutter/screen/login_screen.dart';
+
 
 class SettingsScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  
 
   @override
   Widget build(BuildContext context) {
@@ -20,20 +19,24 @@ class SettingsScreen extends StatelessWidget {
           children: [
             Text(
               'Preferencias',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (context) => LoginScreen(() {
-                      Navigator.of(context).pushReplacementNamed('/signup');
-                    }),
-                  ),
-                  (route) => false, // Remueve todas las rutas anteriores
-                );
+                try {
+                  await FirebaseAuth.instance.signOut();// Llama al nuevo método
+                   // Elimina el historial de navegación);
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text(e.toString()),
+                        backgroundColor: Colors.redAccent),
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.redAccent,

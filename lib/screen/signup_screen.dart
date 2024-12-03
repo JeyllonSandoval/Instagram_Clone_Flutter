@@ -9,7 +9,7 @@ import 'package:instagram_clone_flutter/util/imagepicker.dart';
 
 class SignupScreen extends StatefulWidget {
   final VoidCallback show;
-  const SignupScreen(this.show, {super.key});
+  SignupScreen(this.show, {super.key});
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -27,7 +27,6 @@ class _SignupScreenState extends State<SignupScreen> {
   final bio = TextEditingController();
   FocusNode bio_F = FocusNode();
   File? _imageFile;
-
   @override
   void dispose() {
     // TODO: implement dispose
@@ -39,76 +38,62 @@ class _SignupScreenState extends State<SignupScreen> {
     bio.dispose();
   }
 
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(width: 96.w, height: 10.h),
-            Center(
-              child: Image.asset('images/logo.jpg'),
-            ),
-            SizedBox(width: 96.w, height: 70.h),
-            InkWell(
-              onTap: () async {
-                try {
-                  // Intenta cargar la imagen
-                  File imagefilee = await ImagePickerr().uploadImage('gallery');
-
-                  // Actualiza el estado si la imagen fue seleccionada correctamente
-                  setState(() {
-                    _imageFile = imagefilee;
-                  });
-                } catch (e) {
-                  // Muestra un mensaje de error si algo sale mal
-                  print("Error al seleccionar la imagen: $e");
-
-                  // Opcional: Mostrar un Snackbar o diálogo para informar al usuario
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("No se pudo cargar la imagen. Inténtalo nuevamente."),
-                    ),
-                  );
-                }
-              },
-              child: CircleAvatar(
-                radius: 36.r,
-                backgroundColor: Colors.grey,
-                child: _imageFile == null
-                    ? CircleAvatar(
-                        radius: 34.r,
-                        backgroundImage: const AssetImage('images/person.png'),
-                        backgroundColor: Colors.grey.shade200,
-                      )
-                    : CircleAvatar(
-                        radius: 34.r,
-                        backgroundImage: Image.file(
-                          _imageFile!,
-                          fit: BoxFit.cover,
-                        ).image,
-                        backgroundColor: Colors.grey.shade200,
-                      ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(width: 40.w, height: 10.h),
+              Center(
+                child: Image.asset('images/logo.jpg'),
               ),
-            ),
-            SizedBox(height: 40.h),
-            Textfield(email, Icons.email, 'Email', email_F),
-            SizedBox(height: 15.h),
-            Textfield(password, Icons.lock, 'Password', password_F),
-            SizedBox(height: 15.h),
-            Textfield(passwordConfirme, Icons.lock, 'Password Confirme',
-                passwordConfirme_F),
-            SizedBox(height: 15.h),
-            Textfield(username, Icons.person, 'Username', username_F),
-            SizedBox(height: 15.h),
-            Textfield(bio, Icons.person, 'Bio', bio_F),
-            SizedBox(height: 15.h),
-            Signup(),
-            SizedBox(height: 15.h),
-            Have()
-          ],
+              SizedBox(width: 96.w, height: 70.h),
+              InkWell(
+                onTap: () async {
+                  File _imagefilee = await ImagePickerr().uploadImage('gallery');
+                  setState(() {
+                    _imageFile = _imagefilee;
+                  });
+                },
+                child: CircleAvatar(
+                  radius: 36.r,
+                  backgroundColor: Colors.grey,
+                  child: _imageFile == null
+                      ? CircleAvatar(
+                          radius: 34.r,
+                          backgroundImage: AssetImage('images/person.png'),
+                          backgroundColor: Colors.grey.shade200,
+                        )
+                      : CircleAvatar(
+                          radius: 34.r,
+                          backgroundImage: Image.file(
+                            _imageFile!,
+                            fit: BoxFit.cover,
+                          ).image,
+                          backgroundColor: Colors.grey.shade200,
+                        ),
+                ),
+              ),
+              SizedBox(height: 40.h),
+              Textfild(email, email_F, 'Email', Icons.email),
+              SizedBox(height: 15.h),
+              Textfild(username, username_F, 'username', Icons.person),
+              SizedBox(height: 15.h),
+              Textfild(bio, bio_F, 'bio', Icons.abc),
+              SizedBox(height: 15.h),
+              Textfild(password, password_F, 'Password', Icons.lock),
+              SizedBox(height: 15.h),
+              Textfild(passwordConfirme, passwordConfirme_F, 'PasswordConfirme',
+                  Icons.lock),
+              SizedBox(height: 15.h),
+              Signup(),
+              SizedBox(height: 15.h),
+              Have()
+            ],
+          ),
         ),
       ),
     );
@@ -142,7 +127,7 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
- Widget Signup() {
+  Widget Signup() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: InkWell(
@@ -156,8 +141,19 @@ class _SignupScreenState extends State<SignupScreen> {
               bio: bio.text,
               profile: _imageFile ?? File(''),
             );
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Account created successfully'),
+                backgroundColor: Colors.green,
+              ),
+            );
           } on exceptions catch (e) {
-            dialogBuilder(context, e.message);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(e.message),
+                backgroundColor: Colors.red,
+              ),
+            );
           }
         },
         child: Container(
@@ -181,30 +177,43 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget Textfield(TextEditingController controller, IconData icon, String type,
-      FocusNode focusNode) {
+  Padding Textfild(TextEditingController controll, FocusNode focusNode,
+      String typename, IconData icon) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: Container(
         height: 44.h,
         decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(5.r)),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5.r),
+        ),
         child: TextField(
           style: TextStyle(fontSize: 18.sp, color: Colors.black),
-          controller: controller,
+          controller: controll,
           focusNode: focusNode,
           decoration: InputDecoration(
-              hintText: type,
-              prefixIcon: Icon(icon,
-                  color: focusNode.hasFocus ? Colors.black : Colors.grey),
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5.r),
-                  borderSide: BorderSide(color: Colors.grey, width: 2.w)),
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5.r),
-                  borderSide: BorderSide(color: Colors.black, width: 2.w))),
+            hintText: typename,
+            prefixIcon: Icon(
+              icon,
+              color: focusNode.hasFocus ? Colors.black : Colors.grey[600],
+            ),
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5.r),
+              borderSide: BorderSide(
+                width: 2.w,
+                color: Colors.grey,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5.r),
+              borderSide: BorderSide(
+                width: 2.w,
+                color: Colors.black,
+              ),
+            ),
+          ),
         ),
       ),
     );

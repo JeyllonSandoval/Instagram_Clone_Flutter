@@ -36,18 +36,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  getdata() async {
+getdata() async {
+  try {
     DocumentSnapshot snap = await _firebaseFirestore
         .collection('users')
-        .doc(_auth.currentUser!.uid)
+        .doc(widget.Uid) // Aquí asegúrate de pasar el UID correcto
         .get();
-    following = (snap.data()! as dynamic)['following'];
+
+    // Asegurarse de que los datos no sean nulos
+    var data = snap.data() as Map<String, dynamic>?;
+    
+    if (data == null) {
+      print("No se encontraron datos para el usuario.");
+      return;
+    }
+
+    // Verifica si el campo 'following' está presente y es una lista
+    List<dynamic> following = data['following'] ?? [];
+    
     if (following.contains(widget.Uid)) {
       setState(() {
         follow = true;
       });
     }
+  } catch (e) {
+    print("Error al obtener los datos del usuario: $e");
   }
+}
+
+
 
   @override
   Widget build(BuildContext context) {

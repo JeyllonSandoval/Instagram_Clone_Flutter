@@ -8,25 +8,41 @@ class Firebase_Firestor {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<bool> CreateUser({
-    required String email,
-    required String username,
-    required String bio,
-    required String profile,
-  }) async {
+Future<bool> CreateUser({
+  required String email,
+  required String username,
+  required String bio,
+  required String profile,
+}) async {
+  // Verificar si el usuario está autenticado
+  final user = _auth.currentUser;
+  if (user == null) {
+    print("No user is logged in");
+    return false;
+  }
+
+  try {
+    // Crear un documento para el nuevo usuario con su UID
     await _firebaseFirestore
         .collection('users')
-        .doc(_auth.currentUser!.uid)
+        .doc(user.uid) // Usamos el UID del usuario autenticado
         .set({
       'email': email,
       'username': username,
       'bio': bio,
       'profile': profile,
-      'followers': [],
-      'following': [],
+      'followers': [], // Lista vacía de seguidores
+      'following': [], // Lista vacía de seguidos
     });
+
+    print("User created successfully");
     return true;
+  } catch (e) {
+    print("Error creating user: $e");
+    return false;
   }
+}
+
 
   Future<Usermodel> getUser({String? UID}) async {
     try {
@@ -167,5 +183,13 @@ class Firebase_Firestor {
       res = e.toString();
     }
     return res;
+  }
+
+    Future<void> Logout() async {
+    try {
+      await _auth.signOut(); // Cierra sesión de Firebase
+    } on FirebaseException catch (e) {
+      throw exceptions(e.message.toString()); // Maneja errores de Firebase
+    }
   }
 }

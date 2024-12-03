@@ -8,6 +8,7 @@ import 'package:instagram_clone_flutter/util/exeption.dart';
 
 class Authentication {
   FirebaseAuth _auth = FirebaseAuth.instance;
+
   Future<void> Login({
     required String email,
     required String password,
@@ -69,4 +70,5 @@ class Authentication {
       throw exceptions(e.message.toString());
     }
   }
+
 }
