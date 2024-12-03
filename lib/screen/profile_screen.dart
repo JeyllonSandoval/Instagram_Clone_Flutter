@@ -8,6 +8,7 @@ import 'package:instagram_clone_flutter/data/firebase_servise/firestor.dart';
 import 'package:instagram_clone_flutter/data/model/usermodel.dart';
 import 'package:instagram_clone_flutter/screen/SettingScreen.dart';
 import 'package:instagram_clone_flutter/screen/home.dart';
+import 'package:instagram_clone_flutter/screen/messeger_screen.dart';
 import 'package:instagram_clone_flutter/screen/post_screen.dart';
 import 'package:instagram_clone_flutter/util/image_cached.dart';
 
@@ -320,9 +321,17 @@ getdata() async {
                         borderRadius: BorderRadius.circular(5.r),
                         border: Border.all(color: Colors.grey.shade200),
                       ),
-                      child: const Text(
-                        'Message',
-                        style: TextStyle(color: Colors.black),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MessengerScreen()), // Cambia a la pantalla de Messenger
+                          );
+                        },
+                        child: const Text(
+                          'Message',
+                          style: TextStyle(color: Colors.black),
+                        ),
                       ),
                     ),
                   ),
