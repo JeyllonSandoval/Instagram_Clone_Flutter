@@ -3,9 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram_clone_flutter/auth/mainpage.dart';
 import 'package:instagram_clone_flutter/data/firebase_servise/firestor.dart';
 import 'package:instagram_clone_flutter/data/model/usermodel.dart';
 import 'package:instagram_clone_flutter/screen/SettingScreen.dart';
+import 'package:instagram_clone_flutter/screen/home.dart';
 import 'package:instagram_clone_flutter/screen/post_screen.dart';
 import 'package:instagram_clone_flutter/util/image_cached.dart';
 
@@ -71,6 +73,23 @@ getdata() async {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              if (Navigator.canPop(context)) {
+                Navigator.pop(context); // Regresa a la vista anterior si existe
+              } else {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => MainPage()), // Redirige al Home
+                );
+              }
+            },
+          ),
+
+          title: const Text("Profile"),
+        ),
         backgroundColor: Colors.grey.shade100,
         body: SafeArea(
           child: CustomScrollView(
@@ -126,6 +145,7 @@ getdata() async {
       ),
     );
   }
+        
 
   // ignore: non_constant_identifier_names
   Widget Head(Usermodel user) {
