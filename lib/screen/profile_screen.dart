@@ -123,33 +123,55 @@ getdata() async {
                 },
               ),
             ),
-              StreamBuilder(
+              StreamBuilder<QuerySnapshot>(
                 stream: _firebaseFirestore
                     .collection('posts')
                     .where('uid', isEqualTo: widget.Uid)
                     .snapshots(),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
                     return const SliverToBoxAdapter(
-                        child:
-                            Center(child: CircularProgressIndicator()));
+                      child: Center(child: CircularProgressIndicator()),
+                    );
                   }
+
+                  if (snapshot.hasError) {
+                    return const SliverToBoxAdapter(
+                      child: Center(child: Text('Error loading posts')),
+                    );
+                  }
+
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return const SliverToBoxAdapter(
+                      child: Center(child: Text('No posts available')),
+                    );
+                  }
+
+                  // Aquí calculamos y actualizamos la longitud de las publicaciones
                   post_lenght = snapshot.data!.docs.length;
+
                   return SliverGrid(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      final snap = snapshot.data!.docs[index];
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => PostScreen(snap.data())));
-                        },
-                        child: CachedImage(
-                          snap['postImage'],
-                        ),
-                      );
-                    }, childCount: post_lenght),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        // Extraemos la publicación individual
+                        final snap = snapshot.data!.docs[index].data() as Map<String, dynamic>;
+
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => PostScreen(snap),
+                              ),
+                            );
+                          },
+                          child: CachedImage(
+                            snap['postImage'], // Asegúrate de que este campo existe en tu documento
+                          ),
+                        );
+                      },
+                      childCount: snapshot.data!.docs.length,
+                    ),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       crossAxisSpacing: 4,
                       mainAxisSpacing: 4,
@@ -157,7 +179,6 @@ getdata() async {
                   );
                 },
               ),
-              
             ],
           ),
         ),
