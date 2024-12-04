@@ -1,16 +1,20 @@
-# instagram_clone_flutter
+# **Instagram Clone** 📸
 
-A new Flutter project.
+This project is a mobile Instagram clone app built with Flutter, replicating the basic features of the popular social media platform for sharing photos and videos.
 
-## Getting Started
+## **Main Features** 📱
+- **Login and authentication** with Firebase.
+- **Upload and view images** from the device's gallery.
+- **Interact with posts** (Likes, comments).
+- **Post system** for sharing photos.
+- **User interface similar** to Instagram, simple and easy to use.
 
-This project is a starting point for a Flutter application.
+## **Technologies Used** 🛠️
+- **Flutter**: Cross-platform mobile development framework.
+- **Dart**: Programming language used in Flutter.
+- **Firebase**: Platform for managing user authentication and cloud storage.
+- **Flutter ScreenUtil**: Package for adapting the design to different screen sizes.
+- **Photo Manager**: Package for accessing and managing the device's images.
+- **Extras**: Many other dependencies that can be found in the `pubspec.yaml` file.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Credits: [alireza4585 ](https://github.com/alireza4585)
