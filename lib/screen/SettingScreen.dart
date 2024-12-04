@@ -19,7 +19,7 @@ class SettingsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Preferencias',
+              'Preferences',
               style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
