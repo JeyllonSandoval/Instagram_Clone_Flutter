@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 120.h),
             Textfield(email, Icons.email, 'Email', email_F),
             SizedBox(height: 15.h),
-            Textfield(password, Icons.lock, 'Password', password_F),
+            Textfield(password, Icons.lock, 'Password', password_F, obscure: true),
             SizedBox(height: 10.h),
             Forgot(),
             SizedBox(height: 10.h),
@@ -140,35 +140,35 @@ Widget login() {
     );
   }
 
-  Widget Textfield(TextEditingController controller, IconData icon, String type, FocusNode focusNode) {
+  Widget Textfield(TextEditingController controller, IconData icon, String type, FocusNode focusNode, {bool obscure = false}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: Container(
-                height: 44.h,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5.r)
-                ),
-                child: TextField(
-                  style: TextStyle(fontSize: 18.sp, color: Colors.black),
-                  controller: controller,
-                  focusNode: focusNode,
-                  decoration: InputDecoration(
-                    hintText: type,
-                    prefixIcon: Icon(icon, color: focusNode.hasFocus ? Colors.black : Colors.grey),
-                    contentPadding: 
-                      EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.r),
-                      borderSide: BorderSide(color: Colors.grey, width: 2.w)
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.r),
-                      borderSide: BorderSide(color: Colors.black, width: 2.w)
-                    )
-                  ),
-                ),
-              ),
+        height: 44.h,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5.r),
+        ),
+        child: TextField(
+          style: TextStyle(fontSize: 18.sp, color: Colors.black),
+          controller: controller,
+          focusNode: focusNode,
+          obscureText: obscure,  // Aquí agregamos la propiedad obscureText
+          decoration: InputDecoration(
+            hintText: type,
+            prefixIcon: Icon(icon, color: focusNode.hasFocus ? Colors.black : Colors.grey),
+            contentPadding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5.r),
+              borderSide: BorderSide(color: Colors.grey, width: 2.w),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5.r),
+              borderSide: BorderSide(color: Colors.black, width: 2.w),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

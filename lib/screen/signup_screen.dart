@@ -89,10 +89,10 @@ class _SignupScreenState extends State<SignupScreen> {
               SizedBox(height: 15.h),
               textfild(bio, bioFocusNode, 'bio', Icons.abc),
               SizedBox(height: 15.h),
-              textfild(password, passwordFocusNode, 'Password', Icons.lock),
+              textfild(password, passwordFocusNode, 'Password', Icons.lock, obscure: true),
               SizedBox(height: 15.h),
               textfild(passwordConfirme, passwordConfirmationFocusNode, 'PasswordConfirme',
-                  Icons.lock),
+                  Icons.lock, obscure: true),
               SizedBox(height: 15.h),
               signup(),
               SizedBox(height: 15.h),
@@ -189,7 +189,7 @@ Widget signup() {
 
 
   Padding textfild(TextEditingController controll, FocusNode focusNode,
-      String typename, IconData icon) {
+    String typename, IconData icon, {bool obscure = false}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: Container(
@@ -202,14 +202,14 @@ Widget signup() {
           style: TextStyle(fontSize: 18.sp, color: Colors.black),
           controller: controll,
           focusNode: focusNode,
+          obscureText: obscure,  // Aquí usamos la propiedad obscureText
           decoration: InputDecoration(
             hintText: typename,
             prefixIcon: Icon(
               icon,
               color: focusNode.hasFocus ? Colors.black : Colors.grey[600],
             ),
-            contentPadding:
-                EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
+            contentPadding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5.r),
               borderSide: BorderSide(
