@@ -54,27 +54,24 @@ class _Navigations_ScreenState extends State<Navigations_Screen> {
           unselectedItemColor: Colors.grey,
           currentIndex: _currentIndex,
           onTap: navigationTapped,
-          items: [
-            const BottomNavigationBarItem(
+          items: const [
+            BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: '',
             ),
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(Icons.search),
               label: '',
             ),
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.camera),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add_circle_outline_outlined),
               label: '',
             ),
             BottomNavigationBarItem(
-              icon: Image.asset(
-                'images/instagram-reels-icon.png',
-                height: 20.h,
-              ),
+              icon: Icon(Icons.video_collection_outlined),
               label: '',
             ),
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(Icons.person),
               label: '',
             ),

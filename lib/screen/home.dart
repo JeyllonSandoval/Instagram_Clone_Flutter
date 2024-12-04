@@ -25,8 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         elevation: 0,
         title: SizedBox(
-          width: 105.w,
-          height: 28.h,
+          width: 125.w,
+          height: 48.h,
           child: Image.asset('images/instagram.jpg'),
         ),
         leading: GestureDetector(
@@ -49,7 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             );
           },
-          child: Image.asset('images/camera.jpg'),
+          child: Image.asset(
+            'images/camera02.png'),
         ),
         actions: [
           GestureDetector(
@@ -78,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ],
-        backgroundColor: const Color(0xffFAFAFA),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       ),
       body: CustomScrollView(
         slivers: [
