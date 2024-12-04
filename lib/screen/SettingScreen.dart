@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:instagram_clone_flutter/auth/mainpage.dart';
 
 
 class SettingsScreen extends StatelessWidget {
@@ -28,8 +29,11 @@ class SettingsScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 try {
-                  await FirebaseAuth.instance.signOut();// Llama al nuevo método
-                   // Elimina el historial de navegación);
+                  await FirebaseAuth.instance.signOut();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => MainPage()), // Redirige al Home
+                  );
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(

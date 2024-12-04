@@ -72,7 +72,7 @@ getdata() async {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -88,8 +88,20 @@ getdata() async {
               }
             },
           ),
-
           title: const Text("Profile"),
+          actions: [
+            // Solo mostrar el botón de configuración si el UID del perfil es igual al UID del usuario actual
+            if (widget.Uid == _auth.currentUser!.uid) 
+              IconButton(
+                icon: const Icon(Icons.settings), // El ícono de ajustes (ranura)
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SettingsScreen()),
+                  );
+                },
+              ),
+          ],
         ),
         backgroundColor: Colors.grey.shade100,
         body: SafeArea(
@@ -145,6 +157,7 @@ getdata() async {
                   );
                 },
               ),
+              
             ],
           ),
         ),
@@ -345,42 +358,19 @@ getdata() async {
             ),
           ),
           SizedBox(height: 5.h),
-          Visibility(
-            visible: yourse, // Muestra solo si el usuario es el propietario
-            child: SizedBox(
-              width: double.infinity,
-              height: 30.h,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => SettingsScreen(),
-                        ));
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 30.h,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: Colors.grey.shade300),
-                        ),
-                        child: const Text(
-                          'Settings',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+          SizedBox(
+            width: double.infinity,
+            height: 30.h,
+            child: const TabBar(
+              unselectedLabelColor: Colors.grey,
+              labelColor: Colors.black,
+              indicatorColor: Colors.black,
+              tabs: [
+                Icon(Icons.grid_on),
+                Icon(Icons.video_collection),
+              ],
             ),
           ),
-
           
           SizedBox(
             height: 5.h,
