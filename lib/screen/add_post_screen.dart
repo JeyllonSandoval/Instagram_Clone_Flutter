@@ -11,6 +11,7 @@ class AddPostScreen extends StatefulWidget {
   @override
   State<AddPostScreen> createState() => _AddPostScreenState();
 }
+
 class _AddPostScreenState extends State<AddPostScreen> {
   final List<File> _images = [];  // Lista de imágenes
   File? _selectedImage;  // Imagen seleccionada
@@ -84,20 +85,13 @@ class _AddPostScreenState extends State<AddPostScreen> {
           thumbVisibility: true,
           child: CustomScrollView(
             slivers: [
-              // Mostrar la imagen seleccionada en la parte superior
-              SliverToBoxAdapter(
-                child: _selectedImage == null
-                    ? const SizedBox.shrink()
-                    : Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Image.file(
-                          _selectedImage!,
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: 250.0, // Imagen grande
-                        ),
-                      ),
-              ),
+              // SliverPersistentHeader para la imagen seleccionada, con fondo detrás
+              if (_selectedImage != null)
+                SliverPersistentHeader(
+                  delegate: _SelectedImageHeaderDelegate(image: _selectedImage!),
+                  pinned: true,  // La imagen se mantiene fija
+                ),
+
               // Cuadrícula de imágenes
               SliverGrid(
                 delegate: SliverChildBuilderDelegate(
@@ -132,3 +126,35 @@ class _AddPostScreenState extends State<AddPostScreen> {
   }
 }
 
+// Clase para crear el SliverPersistentHeader con la imagen seleccionada
+class _SelectedImageHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final File image;
+
+  _SelectedImageHeaderDelegate({required this.image});
+
+  @override
+  double get maxExtent => 250.0;  // Altura máxima de la imagen
+  @override
+  double get minExtent => 250.0;  // Altura mínima de la imagen (la misma para que no cambie el tamaño)
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      color: Colors.white,  // Fondo detrás de la imagen
+      height: maxExtent,
+      padding: const EdgeInsets.all(8.0),
+      child: Image.file(
+        image,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+      ),
+    );
+  }
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    // Aquí debe ser siempre 'true' para que la imagen se actualice cada vez que se cambie
+    return true;
+  }
+}
