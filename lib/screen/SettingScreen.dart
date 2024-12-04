@@ -34,6 +34,7 @@ class SettingsScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(builder: (context) => MainPage()), // Redirige al Home
                   );
+                  
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(

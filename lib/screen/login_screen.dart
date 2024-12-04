@@ -97,16 +97,20 @@ Widget login() {
             );
             
             // Si la autenticación es exitosa
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Login successful'), backgroundColor: Color.fromARGB(255, 0, 109, 56)),
-            );
-            // Redirigir a otra pantalla, por ejemplo:
-            // Navigator.pushReplacementNamed(context, '/home');
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Login successful'), backgroundColor: Color.fromARGB(255, 0, 109, 56)),
+              );
+              // Redirigir a otra pantalla, por ejemplo:
+            }
           } catch (e) {
             // Si ocurre un error, muestra un mensaje
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Email or Password is incorrect'), backgroundColor: Colors.redAccent),
-            );
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Email or Password is incorrect'), backgroundColor: Colors.redAccent),
+              );
+            }
+
           }
         },
 
