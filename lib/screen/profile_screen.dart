@@ -3,9 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram_clone_flutter/auth/mainpage.dart';
 import 'package:instagram_clone_flutter/data/firebase_servise/firestor.dart';
 import 'package:instagram_clone_flutter/data/model/usermodel.dart';
 import 'package:instagram_clone_flutter/screen/SettingScreen.dart';
+import 'package:instagram_clone_flutter/screen/home.dart';
+import 'package:instagram_clone_flutter/screen/messeger_screen.dart';
 import 'package:instagram_clone_flutter/screen/post_screen.dart';
 import 'package:instagram_clone_flutter/util/image_cached.dart';
 
@@ -69,23 +72,57 @@ getdata() async {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              if (Navigator.canPop(context)) {
+                Navigator.pop(context); // Regresa a la vista anterior si existe
+              } else {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => MainPage()), // Redirige al Home
+                );
+              }
+            },
+          ),
+          title: const Text("Profile"),
+          actions: [
+            // Solo mostrar el botón de configuración si el UID del perfil es igual al UID del usuario actual
+            if (widget.Uid == _auth.currentUser!.uid) 
+              IconButton(
+                icon: const Icon(Icons.settings), // El ícono de ajustes (ranura)
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SettingsScreen()),
+                  );
+                },
+              ),
+          ],
+        ),
         backgroundColor: Colors.grey.shade100,
         body: SafeArea(
           child: CustomScrollView(
             slivers: [
-              SliverToBoxAdapter(
-                child: FutureBuilder(
-                  future: Firebase_Firestor().getUser(UID: widget.Uid),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    return Head(snapshot.data!);
-                  },
-                ),
+            SliverToBoxAdapter(
+              child: FutureBuilder(
+                future: Firebase_Firestor().getUser(UID: widget.Uid),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height,
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                  return Head(snapshot.data!);
+                },
               ),
+            ),
               StreamBuilder(
                 stream: _firebaseFirestore
                     .collection('posts')
@@ -120,12 +157,14 @@ getdata() async {
                   );
                 },
               ),
+              
             ],
           ),
         ),
       ),
     );
   }
+        
 
   // ignore: non_constant_identifier_names
   Widget Head(Usermodel user) {
@@ -300,9 +339,17 @@ getdata() async {
                         borderRadius: BorderRadius.circular(5.r),
                         border: Border.all(color: Colors.grey.shade200),
                       ),
-                      child: const Text(
-                        'Message',
-                        style: TextStyle(color: Colors.black),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MessengerScreen()), // Cambia a la pantalla de Messenger
+                          );
+                        },
+                        child: const Text(
+                          'Message',
+                          style: TextStyle(color: Colors.black),
+                        ),
                       ),
                     ),
                   ),
@@ -314,31 +361,13 @@ getdata() async {
           SizedBox(
             width: double.infinity,
             height: 30.h,
-            child: Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => SettingsScreen()));
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 30.h,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey.shade300),
-                      ),
-                      child: const Text(
-                        'Settings',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+            child: const TabBar(
+              unselectedLabelColor: Colors.grey,
+              labelColor: Colors.black,
+              indicatorColor: Colors.black,
+              tabs: [
+                Icon(Icons.grid_on),
+                Icon(Icons.video_collection),
               ],
             ),
           ),

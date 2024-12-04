@@ -160,9 +160,60 @@ class _PostWidgetState extends State<PostWidget> {
                     ),
                   ),
                   SizedBox(width: 17.w),
-                  Image.asset(
-                    'images/send.jpg',
-                    height: 28.h,
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Center(
+                              child: Text('Share Post', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+                            ),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Center(
+                                  child: Text(
+                                    'Link of the post:',
+                                    textAlign: TextAlign.center, // Alinea el texto al centro
+                                  ),
+                                ),
+                                SizedBox(height: 8.h),
+                                Center(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      // Aquí puedes agregar lógica para copiar o abrir el enlace
+                                    },
+                                    child: Text(
+                                      'https://example.com/post/12345', // Reemplaza con el enlace real del post
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                      textAlign: TextAlign.center, // Alinea el enlace al centro
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            actions: [
+                              Center(
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop(); // Cierra la ventana
+                                  },
+                                  child: const Text('Cerrar'),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: Image.asset(
+                      'images/send.jpg',
+                      height: 28.h,
+                    ),
                   ),
                   const Spacer(),
                   Padding(

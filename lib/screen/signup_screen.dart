@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clone_flutter/data/firebase_servise/firebase_auth.dart';
-import 'package:instagram_clone_flutter/util/dialog.dart';
 import 'package:instagram_clone_flutter/util/exeption.dart';
 import 'package:instagram_clone_flutter/util/imagepicker.dart';
 
@@ -17,19 +16,24 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   final email = TextEditingController();
-  FocusNode email_F = FocusNode();
+  FocusNode emailFocusNode = FocusNode();
   final password = TextEditingController();
-  FocusNode password_F = FocusNode();
+  FocusNode passwordFocusNode = FocusNode();
   final passwordConfirme = TextEditingController();
-  FocusNode passwordConfirme_F = FocusNode();
+  FocusNode passwordConfirmationFocusNode = FocusNode();
   final username = TextEditingController();
-  FocusNode username_F = FocusNode();
+  FocusNode usernameFocusNode = FocusNode();
   final bio = TextEditingController();
-  FocusNode bio_F = FocusNode();
+  FocusNode bioFocusNode = FocusNode();
   File? _imageFile;
+  
   @override
   void dispose() {
-    // TODO: implement dispose
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
+    passwordConfirmationFocusNode.dispose();
+    usernameFocusNode.dispose();
+    bioFocusNode.dispose();
     super.dispose();
     email.dispose();
     password.dispose();
@@ -79,20 +83,20 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               SizedBox(height: 40.h),
-              Textfild(email, email_F, 'Email', Icons.email),
+              textfild(email, emailFocusNode, 'Email', Icons.email),
               SizedBox(height: 15.h),
-              Textfild(username, username_F, 'username', Icons.person),
+              textfild(username, usernameFocusNode, 'username', Icons.person),
               SizedBox(height: 15.h),
-              Textfild(bio, bio_F, 'bio', Icons.abc),
+              textfild(bio, bioFocusNode, 'bio', Icons.abc),
               SizedBox(height: 15.h),
-              Textfild(password, password_F, 'Password', Icons.lock),
+              textfild(password, passwordFocusNode, 'Password', Icons.lock, obscure: true),
               SizedBox(height: 15.h),
-              Textfild(passwordConfirme, passwordConfirme_F, 'PasswordConfirme',
-                  Icons.lock),
+              textfild(passwordConfirme, passwordConfirmationFocusNode, 'PasswordConfirme',
+                  Icons.lock, obscure: true),
               SizedBox(height: 15.h),
-              Signup(),
+              signup(),
               SizedBox(height: 15.h),
-              Have()
+              have()
             ],
           ),
         ),
@@ -100,7 +104,7 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget Have() {
+  Widget have() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: Row(
@@ -128,58 +132,64 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget Signup() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.w),
-      child: InkWell(
-        onTap: () async {
-          try {
-            await Authentication().Signup(
-              email: email.text,
-              password: password.text,
-              passwordConfirme: passwordConfirme.text,
-              username: username.text,
-              bio: bio.text,
-              profile: _imageFile ?? File(''),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Account created successfully'),
-                backgroundColor: Colors.green,
-              ),
-            );
-          } on exceptions catch (e) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(e.message),
-                backgroundColor: Colors.red,
-              ),
-            );
+Widget signup() {
+  return Padding(
+    padding: EdgeInsets.symmetric(horizontal: 10.w),
+    child: InkWell(
+      onTap: () async {
+        try {
+          //Comprueba si se selecciono una imagen
+          if (_imageFile == null) {
+            throw exceptions('Please select an image');
           }
-        },
-        child: Container(
-          alignment: Alignment.center,
-          width: double.infinity,
-          height: 44.h,
-          decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: BorderRadius.circular(10.r),
-          ),
-          child: Text(
-            'Sign up',
-            style: TextStyle(
-              fontSize: 23.sp,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
+          // Llama a la función de signup y pasa la imagen
+          await Authentication().Signup(
+            email: email.text,
+            password: password.text,
+            passwordConfirme: passwordConfirme.text,
+            username: username.text,
+            bio: bio.text,
+            profile: _imageFile ?? File(''),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Account created successfully'),
+              backgroundColor: Colors.green,
             ),
+          );
+        } on exceptions catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(e.message),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      },
+      child: Container(
+        alignment: Alignment.center,
+        width: double.infinity,
+        height: 44.h,
+        decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        child: Text(
+          'Sign up',
+          style: TextStyle(
+            fontSize: 23.sp,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
-  Padding Textfild(TextEditingController controll, FocusNode focusNode,
-      String typename, IconData icon) {
+
+  Padding textfild(TextEditingController controll, FocusNode focusNode,
+    String typename, IconData icon, {bool obscure = false}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: Container(
@@ -192,14 +202,14 @@ class _SignupScreenState extends State<SignupScreen> {
           style: TextStyle(fontSize: 18.sp, color: Colors.black),
           controller: controll,
           focusNode: focusNode,
+          obscureText: obscure,  // Aquí usamos la propiedad obscureText
           decoration: InputDecoration(
             hintText: typename,
             prefixIcon: Icon(
               icon,
               color: focusNode.hasFocus ? Colors.black : Colors.grey[600],
             ),
-            contentPadding:
-                EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
+            contentPadding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5.r),
               borderSide: BorderSide(

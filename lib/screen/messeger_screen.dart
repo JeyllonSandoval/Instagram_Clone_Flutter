@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone_flutter/auth/mainpage.dart';
-import 'package:instagram_clone_flutter/widget/post_widget.dart';
 
-class PostScreen extends StatelessWidget {
-  final snapshot;
-  const PostScreen(this.snapshot, {super.key});
+class MessengerScreen extends StatefulWidget {
+  const MessengerScreen({super.key});
+  @override
+  State<MessengerScreen> createState() => _MessengerScreenState();
+}
 
+class _MessengerScreenState extends State<MessengerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+        appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
@@ -23,10 +25,12 @@ class PostScreen extends StatelessWidget {
               }
             },
           ),
-          title: const Text("Post"),
+          title: const Text("Messenger"),
         ),
-      backgroundColor: Colors.white,
-      body: SafeArea(child: PostWidget(snapshot)),
+      body: Center(
+        child: const Text('Messenger Screen'),
+      ),
     );
   }
 }
+
